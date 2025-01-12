@@ -64,7 +64,7 @@ for data_idx in range (50):
     # We can display the Range Cube data by summing across all the antennas,
     # then take the log of the magnitude for better visualization in Decibels (dB).
 
-    #Process Range
+    # Moving from time domain to frequency domain using FFT
     range_cube = np.fft.fft(adc_data, axis=2).transpose(2, 1, 0)
 
     range_cube = np.fft.fftshift(np.fft.fft(range_cube, axis=2), axes=2)
