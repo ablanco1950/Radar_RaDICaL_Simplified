@@ -9,7 +9,7 @@ Run the test program:
 
 python Test_Radar_RaDICal_Simplfied.py
 
-The program initially has two parameters: FifMax and FifMin ; by adjusting them, a balance can be achieved between detecting targets and avoiding interference.
+The program initially has two parameters: FifMax and FifMin to select the intermediate frequency range; by adjusting them, a balance can be achieved between detecting targets and avoiding interference.
 
 The Texas manual, mmwaveSensing-FMCW-offlineviewing_0 .pdf, is attached. that has been followed in this test, specifically the explanations on page 4
 
