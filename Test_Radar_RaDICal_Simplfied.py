@@ -62,7 +62,7 @@ for data_idx in range (50):
     #     - Number of Chirps → Number of Doppler Velocity Bins
     # Let’s go ahead and process the Range data, to do this we take the FFT across all of the ADC samples.
     # We can display the Range Cube data by summing across all the antennas,
-    # then take the log of the magnitude for better visualization in Decibels (dB).
+    
 
     # Moving from time domain to frequency domain using FFT
     range_cube = np.fft.fft(adc_data, axis=2).transpose(2, 1, 0)
