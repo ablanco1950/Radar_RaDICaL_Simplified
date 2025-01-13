@@ -103,7 +103,8 @@ for data_idx in range (50):
     #ax.set_title("Frame " + str(data_idx))
     ax[0].imshow(rgb_image)
     ax[0].set_title("Frame " + str(data_idx))
-    ax[1].plot(Tab_phi, Tab_r, **{'color': 'lightsteelblue', 'marker': 'o'})
+    #ax[1].plot(Tab_phi, Tab_r, **{'color': 'lightsteelblue', 'marker': 'o'})
+    ax[1].scatter(Tab_phi, Tab_r, **{'color': 'lightsteelblue', 'marker': 'o'})
     
 
     plt.show()
