@@ -10,8 +10,8 @@
 # https://fireball.teckyianlim.me/file/flaming-cake/indoor_sample_50.h5
 
 # PRAMETERS
-FifMax=77095 # Mhz intermediate frecuency max
-FifMin=77020 # Mhz intermediate frecuency min
+FifMax=77095.0 # Mhz intermediate frecuency max
+FifMin=77020.0 # Mhz intermediate frecuency min
 
 # speed of wave propagation
 c = 299792458 # m/s
@@ -75,6 +75,7 @@ for data_idx in range (50):
     
     Tab_r=[]
     Tab_phi=[]
+    Tab_angle=[]
     strDistance=""
    
     for i in range(len(range_cube1)):
@@ -84,9 +85,22 @@ for data_idx in range (50):
       if r > FifMax: continue
       if r < FifMin: continue
       
+           
+      # with eigth Rx angle betwen +90 and -90 degres
+      angle = np.angle(range_cube1[i], deg=True)
+      if angle > 90:
+          print(" rejected angle = " + str(angle))
+          continue
+      if angle < -90:
+          print(" rejected angle = " + str(angle))
+          continue
+
       Tab_r.append(r)
       
       Tab_phi.append(phi)
+
+      Tab_angle.append(angle)
+      
       d=(r*c)/ ( 2*S * 1000000.0)
       print (" distance = " +str(d))
       strDistance=strDistance +str(d) + " - "
@@ -103,8 +117,12 @@ for data_idx in range (50):
     #ax.set_title("Frame " + str(data_idx))
     ax[0].imshow(rgb_image)
     ax[0].set_title("Frame " + str(data_idx))
+    ax[1].set_ylabel("Fif Mhz")
+    ax[1].set_xlabel("Angle degres");
     #ax[1].plot(Tab_phi, Tab_r, **{'color': 'lightsteelblue', 'marker': 'o'})
-    ax[1].scatter(Tab_phi, Tab_r, **{'color': 'lightsteelblue', 'marker': 'o'})
+    #ax[1].scatter(Tab_phi, Tab_r, **{'color': 'lightsteelblue', 'marker': 'o'})
+    ax[1].scatter(Tab_angle, Tab_r, **{'color': 'lightsteelblue', 'marker': 'o'})
+    
     
 
     plt.show()
