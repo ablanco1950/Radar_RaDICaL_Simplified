@@ -9,7 +9,12 @@ Run the test program:
 
 python Test_Radar_RaDICal_Simplfied.py
 
-The program initially has two parameters: FifMax and FifMin to select the intermediate frequency range; by adjusting them, a balance can be achieved between detecting targets and avoiding interference.
+As this is a room, to avoid waves reflected by walls and others:
+
+- Distances are limited  by limiting  intermediate frecuency
+
+- Only moving targets are considered. Moving targets are detected by the phase shift between one chirp component and the same component
+  in the previous chirp detected by the same antenna.
 
 The Texas manual, mmwaveSensing-FMCW-offlineviewing_0 .pdf, is attached. that has been followed in this test, specifically the explanations on page 4
 
