@@ -29,16 +29,17 @@ https://publish.illinois.edu/radicaldata/
 
 https://github.com/moodoki/radical_sdk
 
-a A small sample (50 frames) to try things from
+
 https://fireball.teckyianlim.me/file/flaming-cake/indoor_sample_50.h5
+Is one small sample (50 frames) to try.
 
 https://www.ti.com/lit/an/swra553a/swra553a.pdf?ts=1714172430750
 
-But does not provide dataset for try:
 https://www.plextek.com/articles/a-programmers-introduction-to-processing-imaging-radar-data/
+But does not provide dataset for try:
 
 https://www.radartutorial.eu/10.processing/sp04.en.html
 
 https://moodoki.github.io/radical_sdk/ProjectBBoxExample.html
-It seems to be limited to detecting objects in radar photos and does not use radar signals. In a similar way to that used in https://github.com/ablanco1950/Radar_Marine-Yolov11
-which would be computer vision projects rather than signal processing
+It seems to be limited to detecting objects in radar photos and does not use radar signals. In a similar way to that used in https://github.com/ablanco1950/Radar_Marine-Yolov11 wich uses photos of screen radar.
+Would be computer vision projects rather than signal processing
