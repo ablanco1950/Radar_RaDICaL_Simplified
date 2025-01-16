@@ -38,3 +38,7 @@ But does not provide dataset for try:
 https://www.plextek.com/articles/a-programmers-introduction-to-processing-imaging-radar-data/
 
 https://www.radartutorial.eu/10.processing/sp04.en.html
+
+https://moodoki.github.io/radical_sdk/ProjectBBoxExample.html
+It seems to be limited to detecting objects in radar photos and does not use radar signals. In a similar way to that used in https://github.com/ablanco1950/Radar_Marine-Yolov11
+which would be computer vision projects rather than signal processing
