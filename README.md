@@ -16,7 +16,7 @@ As this is a room, to avoid waves reflected by walls and others:
 - Only moving targets are considered. Moving targets are detected by the phase shift between one chirp component and the same component
   in the previous chirp detected by the same antenna.
 
-The Texas manual, mmwaveSensing-FMCW-offlineviewing_0 .pdf, is attached. that has been followed in this test, specifically the explanations on page 4
+The Texas manual, mmwaveSensing-FMCW-offlineviewing_0 .pdf, is attached. that has been followed in this test, specifically the explanations on page 4 and page 28
 
 References:
 
