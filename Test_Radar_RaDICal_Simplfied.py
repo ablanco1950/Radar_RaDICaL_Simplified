@@ -14,13 +14,14 @@ FifMin=77020.0 # Mhz intermediate frecuency min
 FactorDetectMoving=1.7
 
 # speed of wave propagation
-c = 299792458.0 # m/s
+c = 299792458.0# m/s
+Finicial= 77000 # Mhz
 
 #The Slope (S) of the chirp defines the rate at which the chirp ramps up.
 #In this example the chirp is sweeping a bandwidth of 4GHz in 40us which corresponds to a Slope of 100MHz/us
 S=100 #MHz/us
-S=100/10e-6 # Mhz/s
-# d=(Fif*c)/ ( 2*S)
+# t=(Fif - Finicial) / S # us
+# d=t * 10e-6* c/2 # meters
 
 DATA_PATH = "indoor_sample_50.h5"
 #############################################################################
@@ -124,7 +125,7 @@ for data_idx in range (50):
                       SwPasa=1     
                  
                  if SwPasa==0: continue
-                 print ("angle = " + str(angle)[0:4] + " angle chirp ant = " + str(angle1)[0:4] )     
+                 print (" Fif = " + str(r) + " angle = " + str(angle)[0:4] + " angle chirp ant = " + str(angle1)[0:4] )     
        
                  Tab_r.append(r)
       
@@ -134,12 +135,12 @@ for data_idx in range (50):
 
                  Tab_angle1.append(angle1)
       
-                 d=(r*c)/ ( 2*S * 1000000.0)
+                
+                 t=(r - Finicial) / S # us
+                 d= (t *  c)/(2* 1000000.0) # meters
                  print (" distance = " +str(d)[0:6])
-                 strDistance=strDistance +str(d)[0:6] + " - "
-                 #d=10*np.log10( d**8 )
-                 #print (" distance log = " +str(d))
-   
+                 strDistance=strDistance +str(d)[0:6] + " meters  - "
+               
 
      
     rgb_image = data_dict['rgb'][data_idx, ...]
