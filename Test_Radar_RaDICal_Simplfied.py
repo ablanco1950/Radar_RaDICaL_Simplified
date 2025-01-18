@@ -8,8 +8,8 @@
 # https://fireball.teckyianlim.me/file/flaming-cake/indoor_sample_50.h5
 
 # PARAMETERS ####################################################
-FifMax=77095.0 # Mhz intermediate frecuency max
-FifMin=77020.0 # Mhz intermediate frecuency min
+FifMax=77080.0 # Mhz intermediate frecuency max
+FifMin=77035.0 # Mhz intermediate frecuency min
 
 FactorDetectMoving=1.7
 
@@ -76,8 +76,22 @@ for data_idx in range (50):
     
     #range_cube = np.fft.fft(adc_data, axis=2).transpose(2, 1, 0)
     range_cube = np.fft.fft(adc_data, axis=2)
-
+   
     range_cube = np.fft.fftshift(np.fft.fft(range_cube, axis=2), axes=2)
+
+     
+    """
+    t=range_cube.flatten()
+   
+    freq = np.fft.fftfreq(len(t))
+
+    # Plot the frequency spectrum
+    plt.plot(freq[:len(freq)//2], np.abs(t)[:len(freq)//2])
+    plt.xlabel('Frequency (Hz)')
+    plt.ylabel('Magnitude')
+    plt.title('Frequency Spectrum of Sine Wave Signal')
+    plt.show()
+    """
 
    
     Tab_r=[]
@@ -102,6 +116,7 @@ for data_idx in range (50):
                  # In order to avoid interferences limit distance by mean of intermediate frecuency  
                  if r > FifMax: continue
                  if r < FifMin: continue
+                 
                                  
                  angle = np.angle(range_cube[i][j][k], deg=True)
                  
