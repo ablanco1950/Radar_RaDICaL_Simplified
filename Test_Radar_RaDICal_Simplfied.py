@@ -20,12 +20,21 @@ Finicial= 77000 # Mhz
 #The Slope (S) of the chirp defines the rate at which the chirp ramps up.
 #In this example the chirp is sweeping a bandwidth of 4GHz in 40us which corresponds to a Slope of 100MHz/us
 S=100 #MHz/us
+S=100*10e6 # Mhz/sec
 # t=(Fif - Finicial) / S # us
 # d=t * 10e-6* c/2 # meters
 
-DATA_PATH = "indoor_sample_50.h5"
-#############################################################################
+#Idle_time= 58.0 / 1000000.0 # sec # not used
+#ADC_sample_rate= 9499.0 # Msps samples per second # not used
 
+DATA_PATH = "indoor_sample_50.h5"
+
+#############################################################################
+# the speed of a person is betwenn 1,11 m/s and 1,66m/s
+# experimentally supossing the persons in the frame 0 image has a speed of 1,2  m/s
+# the factor aplied to the cocient of phases from two consecutive chirps
+# would be:
+FactorPhaseVariation=1.2/0.54
 
 import h5py
 import numpy as np
@@ -73,30 +82,16 @@ for data_idx in range (50):
     
 
     # Moving from time domain to frequency domain using FFT
-    
-    #range_cube = np.fft.fft(adc_data, axis=2).transpose(2, 1, 0)
+        
     range_cube = np.fft.fft(adc_data, axis=2)
-   
+    
+    # https://stackoverflow.com/questions/33846123/when-should-i-use-fftshiftfftfftshiftx-and-when-fftx
     range_cube = np.fft.fftshift(np.fft.fft(range_cube, axis=2), axes=2)
 
-     
-    """
-    t=range_cube.flatten()
-   
-    freq = np.fft.fftfreq(len(t))
-
-    # Plot the frequency spectrum
-    plt.plot(freq[:len(freq)//2], np.abs(t)[:len(freq)//2])
-    plt.xlabel('Frequency (Hz)')
-    plt.ylabel('Magnitude')
-    plt.title('Frequency Spectrum of Sine Wave Signal')
-    plt.show()
-    """
-
-   
     Tab_r=[]
-    Tab_phi=[]
+
     Tab_angle=[]
+    
     Tab_angle1=[]
     
     strDistance=""
@@ -106,9 +101,10 @@ for data_idx in range (50):
 
         # for each antena in a chirp
         for j in range (range_cube.shape[1]):
+            #range_bin_chirps = range_cube.sum(axis=1) # MOD
 
             # for each frecuency (component) of a chirp in an antenna
-            for k in range(range_cube.shape[2]):
+            for k in range(range_cube.shape[2]): #MOD
                 
                  r, phi= cmath.polar(range_cube[i][j][k])
 
@@ -121,13 +117,16 @@ for data_idx in range (50):
                  angle = np.angle(range_cube[i][j][k], deg=True)
                  
                  # To avoid interference, only moving targets are considered.
-                 # Moving targets are detected by the phase shift between one chirp component and the same component
-                 #in the previous chirp detected by the same antenna.
+                 # Moving targets are detected if there are phase shift between two consecutive chirp 
+                 #
                  angle1=0
                  SwPasa=0
                  if i > 0:
                       angle1=np.angle(range_cube[i-1][j][k], deg=True)
                       #print(" angle " + str(angle) + " angle ant= " + str(angle1))
+                      r1, phi1= cmath.polar(range_cube[i-1][j][k])
+                      t1=(r1 - Finicial) / S # us
+                      d1= (t1 *  c)/(2* 1000000.0) # meters
                       
                  # negative phases are no considered
                  if angle1 <= 0 : continue
@@ -140,11 +139,18 @@ for data_idx in range (50):
                       SwPasa=1     
                  
                  if SwPasa==0: continue
-                 print (" Fif = " + str(r) + " angle = " + str(angle)[0:4] + " angle chirp ant = " + str(angle1)[0:4] )     
-       
+                 #print (" Fif = " + str(r) + " angle = " + str(angle)[0:4] + " Fif ant= " + str(r1) + " angle chirp ant = " + str(angle1)[0:4] )
+                 #print (" Fif = " + str(r) + " phase = " + str(phi)[0:4]+ " Fif ant= " + str(r1) + " phase chirp ant = " + str(phi1)[0:4] )  
+
+                 # the cocient of phases is the same for objects with almost the the same speed
+                 # for that is asumed to be a mean to get the speed
+                 phi_variation=phi1/phi
+                                 
+                 #print (" Phase variation " + str(phi_variation)[0:4])
+                 
                  Tab_r.append(r)
       
-                 Tab_phi.append(phi)
+                 #Tab_phi.append(phi)
 
                  Tab_angle.append(angle)
 
@@ -153,29 +159,37 @@ for data_idx in range (50):
                 
                  t=(r - Finicial) / S # us
                  d= (t *  c)/(2* 1000000.0) # meters
-                 print (" distance = " +str(d)[0:6])
+                 #print (" distance = " +str(d)[0:6])
                  strDistance=strDistance +str(d)[0:6] + " meters  - "
-               
 
-     
+                 # Experimentally, if the phase variation between two consecutive chirps is less then 0.5
+                 # speed can not be determined
+
+                 if phi_variation > 0.5:
+                     speed = phi_variation * FactorPhaseVariation
+                     
+                     #print (" speed = " +str(speed))
+                                       
+                     strDistance= strDistance + " speed = " +str(speed)[0:4] + " m/s  - "
+
+                 else:
+                     
+                     strDistance= strDistance + " speed  cannot be determined" 
+                 
+                    
     rgb_image = data_dict['rgb'][data_idx, ...]
 
     fig, ax = plt.subplots(1, 2, figsize=(15, 5))
 
-    fig.suptitle("distances = "+ strDistance )
+    fig.suptitle("distances and speed = "+ strDistance )
 
-    #ax.imshow(rgb_image)
-    #ax.set_title("Frame " + str(data_idx))
+    
     ax[0].imshow(rgb_image)
     ax[0].set_title("Frame " + str(data_idx))
     ax[1].set_ylabel("Fif Mhz")
     ax[1].set_xlabel("Phase angle degres");
-    #ax[1].plot(Tab_phi, Tab_r, **{'color': 'lightsteelblue', 'marker': 'o'})
-    #ax[1].scatter(Tab_phi, Tab_r, **{'color': 'lightsteelblue', 'marker': 'o'})
-    ax[1].scatter(Tab_angle, Tab_r, **{'color': 'lightsteelblue', 'marker': 'o'})
+    ax[1].scatter(Tab_angle, Tab_r, **{'color': 'lightsteelblue', 'marker': 'o'})    
     
-    
-
     plt.show()
 
    
