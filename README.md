@@ -20,7 +20,9 @@ Since the formulas to determine the speed that consider the idle_time, adc_sampl
 
 The Texas manual, mmwaveSensing-FMCW-offlineviewing_0 .pdf, is attached. that has been followed in this test, specifically the explanations on page 4 and page 28
 
-![Fig1]([(https://github.com/ablanco1950/Radar_RaDICaL_Simplified/blob/main/Frame0.png)])
+![Fig1](https://github.com/ablanco1950/bone-fracture-7fylg_Yolov10/blob/main/Figure_1.png)
+
+![Fig1](https://github.com/ablanco1950/Radar_RaDICaL_Simplified/blob/main/Frame0.png)
 
 References:
 
