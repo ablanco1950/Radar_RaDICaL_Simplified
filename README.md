@@ -16,6 +16,8 @@ As this is a room, to avoid waves reflected by walls and others:
 - Only moving targets are considered. Moving targets are detected by the phase shift between one chirp component and the same component
   in the previous chirp detected by the same antenna.
 
+Since the formulas to determine the speed that consider the idle_time, adc_sample_rate... etc. have not given me a credible result to determine the speed of the people (which would have to be between 1.11 and 1.66 m/s) and having observed that the phase quotients of two consecutive chirps that have detected an object (a person in this case), are similar to those of another person who had a similar speed (the speed of two people walking in pairs should be similar), I have assumed that the first person detected is going at a speed of 1.2 m/s to determine a factor that is applied to the phase quotient between two consecutive chirps that have detected a person to estimate the speed in subsequent images.  
+
 The Texas manual, mmwaveSensing-FMCW-offlineviewing_0 .pdf, is attached. that has been followed in this test, specifically the explanations on page 4 and page 28
 
 References:
